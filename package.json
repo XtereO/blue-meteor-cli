@@ -1,0 +1,24 @@
+{
+  "name": "@blumt/cli",
+  "preferGlobal": true,
+  "bin": {
+    "blumt": "./index.js"
+  },
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "commander": "^10.0.0",
+    "fs-extra": "^11.1.0",
+    "inquirer": "^9.1.4",
+    "prettier": "^2.8.3"
+  }
+}
