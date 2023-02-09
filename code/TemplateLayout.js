@@ -1,7 +1,12 @@
-export const TemplateLayoutCode = (layoutName) =>
+export const TemplateLayoutCode = (layoutName, isCssOption) =>
   `import { PanelRoute, ViewRoute } from '@core/models';
 import { CustomLayout } from '@ui/atoms';
 import { memo } from 'react';
+${
+  isCssOption
+    ? `import { containerStyle } from "./${layoutName}Layout.css";`
+    : ''
+}
             
 type Props = {
   id: ViewRoute.${layoutName};
@@ -9,7 +14,9 @@ type Props = {
             
 export const ${layoutName}Layout = memo<Props>(({ id }) => {
   return (
-    <CustomLayout id={id}></CustomLayout>
+    <CustomLayout ${
+      isCssOption ? 'className={containerStyle} ' : ''
+    }id={id}></CustomLayout>
   );
 });
 `;

@@ -1,7 +1,10 @@
-export const TemplatePanelCode = (panelName) => 
-`import { PanelRoute } from '@core/models';
+export const TemplatePanelCode = (panelName, isCssOption) =>
+  `import { PanelRoute } from '@core/models';
 import { CustomPanel } from '@ui/atoms';
 import { memo } from 'react';
+${
+  isCssOption ? `import { containerStyle } from './${panelName}Panel.css';` : ''
+}
 
 type Props = {
   id: PanelRoute.${panelName};
@@ -9,7 +12,9 @@ type Props = {
 
 export const ${panelName}Panel = memo<Props>(({ id }) => {
   return (
-    <CustomPanel id={id}></CustomPanel>
+    <CustomPanel ${
+      isCssOption ? `className={containerStyle}` : ''
+    } id={id}></CustomPanel>
   );
 });
-`
+`;

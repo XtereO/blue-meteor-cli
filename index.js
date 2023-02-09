@@ -48,6 +48,8 @@ commander
 
 commander
   .command('panel <panel-name> <layout-name>')
+  .option('-c --css')
+  .option('-r --remove')
   .alias('p')
   .description('Create new panel in layout')
   .action(panel);

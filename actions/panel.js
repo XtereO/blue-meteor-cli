@@ -2,11 +2,22 @@ import chalk from 'chalk';
 import { exec } from 'child_process';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { TemplatePanelCode } from '../code/index.js';
-import { addComponent, addImport, lint } from '../linter.js';
+import {
+  addComponent,
+  addImport,
+  lint,
+  rmComponent,
+  rmImport,
+} from '../linter.js';
 import { capitalize } from '../util.js';
+import { createCssFile } from './createCssFile.js';
+import { createFile } from './createFile.js';
+import { removeFolder, rmRoute } from './removeFolder.js';
 import { route } from './route.js';
 
-export const panel = (panelName, layoutName) => {
+export const panel = (panelName, layoutName, options) => {
+  const isRemoveOption = options.hasOwnProperty('remove') && options.remove;
+  const isCssOption = options.hasOwnProperty('css') && options.css;
   const layoutNameCapitalize = capitalize(layoutName);
   const layoutComponent = `${layoutNameCapitalize}Layout`;
   const panelNameCapitalize = capitalize(panelName);
@@ -23,9 +34,38 @@ export const panel = (panelName, layoutName) => {
     `cd src/ui/layouts/${layoutName} & mkdir panels & cd panels & mkdir ${panelName}`,
     () => {
       const curPath = `src/ui/layouts/${layoutName}`;
+      if (isRemoveOption) {
+        const pathToLayout = `src/ui/layouts/${layoutName}/${layoutComponent}.tsx`;
+        removeFolder(`${curPath}/panels/${panelName}`);
+        createFile(
+          `${curPath}/panels/index.ts`,
+          rmImport(
+            readFileSync(`${curPath}/panels/index.ts`, { encoding: 'utf-8' }),
+            { from: `./${panelName}`, what: '*' }
+          )
+        );
+        rmRoute('panel', panelNameCapitalize);
+        if (existsSync(pathToLayout)) {
+          createFile(
+            pathToLayout,
+            rmImport(
+              rmComponent(
+                readFileSync(pathToLayout, { encoding: 'utf-8' }),
+                panelComponet,
+                'CustomLayout'
+              ),
+              { from: `./panels`, what: `{${panelComponet}}` }
+            )
+          );
+        }
+        return;
+      }
+      if (isCssOption) {
+        createCssFile(`${curPath}/panels/${panelName}/${panelComponet}`);
+      }
       writeFileSync(
         `${curPath}/panels/${panelName}/${panelComponet}.tsx`,
-        TemplatePanelCode(panelNameCapitalize)
+        TemplatePanelCode(panelNameCapitalize, isCssOption)
       );
       writeFileSync(
         `${curPath}/panels/${panelName}/index.ts`,

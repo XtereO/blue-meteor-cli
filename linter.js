@@ -16,7 +16,7 @@ const lastWord = (str) => {
 export const addImport = (code, newImport, isImport = true) => {
   let matches =
     code.match(
-      /(\bimport|\bexport) ({[^{}]*}|\w+|[^\w]) \bfrom ("[^"]*"|'[^']*')/g
+      /(import|export) ({[^{}]*}|\w+|[^\w]) from ("[^"]*"|'[^']*')/g
     ) ?? [];
   const codeStart =
     code.indexOf(matches[matches.length - 1]) +
@@ -49,6 +49,40 @@ export const addImport = (code, newImport, isImport = true) => {
 
   return `${sortedImports}${code.slice(codeStart)}`;
 };
+export const rmImport = (code, newImport) => {
+  let matches =
+    code.match(
+      new RegExp(
+        `(import|export) ({[^{]*}|\w+|[^\w]) from ("${newImport.from}"|'${newImport.from}')`,
+        'g'
+      )
+    ) ?? [];
+  const codeStart =
+    code.indexOf(matches[matches.length - 1]) +
+    (matches[matches.length - 1] ? matches[matches.length - 1].length : 0);
+  const importStart = code.indexOf(matches[matches.length - 1]);
+  if (matches.length > 0) {
+    console.log(matches);
+    matches = matches.reduce((acc, a) => {
+      const newWhat = (a.match(/{[^{]*}/g) ? a.match(/{[^{]*}/g)[0] : '')
+        .replace(/({|}|\s)/g, '')
+        .split(',')
+        .filter((w) => newImport.what.match(new RegExp(w)) === null);
+      sortStrings(newWhat);
+      if (newWhat.length > 0) {
+        acc.push(a.replace(/{[^{}]*}/g, `{ ${newWhat.join(', ')} }`));
+      }
+      return acc;
+    }, []);
+  }
+  sortStrings(matches, lastWord);
+  matches.push('');
+  const sortedImports = matches.join(';');
+
+  return `${code.slice(0, importStart)}${sortedImports}${code.slice(
+    codeStart
+  )}`;
+};
 
 const getStartIndex = (code, componentName) => {
   let cLA = 1;
@@ -74,6 +108,19 @@ export const addComponent = (code, newComponent, parentComponentName) => {
 
   return `${code.slice(0, start)}${sortedComponents}${code.slice(end)}`;
 };
+export const rmComponent = (code, newComponent, parentComponentName) => {
+  const start = getStartIndex(code, parentComponentName);
+  const end = code.indexOf(`</${parentComponentName}>`);
+  const components = code.slice(start, end);
+  const matches = (components.match(/<[^<]*\/\>/g) ?? []).filter(
+    (c) => c.match(new RegExp(`<${newComponent}[^<]*\/\>`)) === null
+  );
+  sortStrings(matches);
+  console.log(matches);
+  const sortedComponents = matches.join('');
+
+  return `${code.slice(0, start)}${sortedComponents}${code.slice(end)}`;
+};
 
 export const addRoute = (code, routeType, routeValue) => {
   const indexStart =
@@ -88,6 +135,32 @@ export const addRoute = (code, routeType, routeValue) => {
     firstRoute.pop();
   }
   firstRoute.push(`${routeValue} = '${routeValue}'`);
+  sortStrings(firstRoute);
+
+  return `${code.slice(0, indexStart)} {${firstRoute.join(',')}} ${code.slice(
+    indexEnd + 1
+  )}`;
+};
+export const removeRoute = (code, routeType, routeValue) => {
+  const indexStart =
+    code.indexOf(`${routeType}Route`) + `${routeType}Route`.length;
+  const codeEnd = code.slice(indexStart);
+  const routes = codeEnd.match(/{[^{}]*}/g);
+  const indexEnd = indexStart + (routes ? routes[0].length : 0);
+  console.log(routeValue, 'removeRoute');
+  const firstRoute = routes
+    ? routes[0]
+        .replace(/({|}|\r|\n|\s)/g, '')
+        .split(',')
+        .filter(
+          (r) =>
+            r.match(new RegExp(`${routeValue}=('|")[^('|")]*('|")`)) === null
+        )
+    : [];
+  console.log(firstRoute);
+  if (!firstRoute[firstRoute.length - 1]) {
+    firstRoute.pop();
+  }
   sortStrings(firstRoute);
 
   return `${code.slice(0, indexStart)} {${firstRoute.join(',')}} ${code.slice(
