@@ -11,7 +11,7 @@ export const template =
     exec(
       `mkdir src & cd src & mkdir core & cd core & mkdir ${folder} & cd ${folder} & mkdir ${name}`,
       () => {
-        const nameCamelCase = toCamelCase(`${prefix}-${name}`);
+        const nameCamelCase = toCamelCase(`${prefix}${name}`);
         const path = (p) => `src/core/${folder}/${p}`;
         createFile(
           path(`${name}/${nameCamelCase}.ts`),
@@ -28,4 +28,4 @@ export const template =
   };
 
 export const util = template('utils');
-export const hook = template('hooks', 'use');
+export const hook = template('hooks', 'use-');

@@ -1,11 +1,21 @@
 import { exec } from 'child_process';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
-import { AppLayoutCode, TemplateLayoutCode } from '../code/index.js';
+import {
+  AppLayoutCode,
+  TemplateIndexCode,
+  TemplateLayoutCode,
+} from '../code/index.js';
 import { addComponent, addImport, lint } from '../linter.js';
 import { capitalize } from '../util.js';
 import { route } from './route.js';
 
-export const layout = (name) => {
+export const layout = (name, options) => {
+  if (options) {
+    console.log(options);
+    return;
+  }
+  console.log('nothing', name);
+  return;
   exec(
     `mkdir src & cd src & mkdir ui & cd ui & mkdir layouts & cd layouts & mkdir ${name} & cd ${name} & mkdir panels`,
     () => {
@@ -14,7 +24,7 @@ export const layout = (name) => {
       const curPath = `src/ui/layouts/${name}`;
       writeFileSync(
         `${curPath}/index.ts`,
-        `export * from "./${componentName}";`
+        TemplateIndexCode(`./${componentName}`, '*')
       );
       writeFileSync(
         `${curPath}/${componentName}.tsx`,
@@ -28,7 +38,7 @@ export const layout = (name) => {
         if (!existsSync(`${curPath}/index.tsx`)) {
           writeFileSync(
             `${curPath}/index.ts`,
-            `export * from "./AppLayout.tsx";`
+            TemplateIndexCode('./AppLayout', '*')
           );
         }
         if (!existsSync(`${curPath}/AppLayout.tsx`)) {

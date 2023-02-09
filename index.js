@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import chalk from 'chalk';
+import { exec } from 'child_process';
 import { Command } from 'commander';
 import { copy } from 'fs-extra';
 import {
@@ -24,16 +26,22 @@ commander
   .command('generate [name]')
   .alias('g')
   .description('Create new project template')
-  .action((name) => {
+  .action(async (name) => {
     console.log(new URL('template', import.meta.url).pathname.slice(1));
-    copy(
+    await copy(
       new URL('template', import.meta.url).pathname.slice(1),
       name ?? 'blumt-template'
     );
+    exec(`cd ${name} & pnpm i`, (err, stdout, stderr) => {
+      console.log(stdout);
+      console.log(chalk.red(err, stderr));
+    });
   });
 
 commander
   .command('layout <name>')
+  .option('-c --css')
+  .option('-r --remove')
   .alias('l')
   .description('Create new layout')
   .action(layout);

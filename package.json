@@ -2,7 +2,7 @@
   "name": "@blumt/cli",
   "preferGlobal": true,
   "bin": {
-    "blumt": "./index.js"
+    "blum": "./index.js"
   },
   "version": "1.0.0",
   "description": "",

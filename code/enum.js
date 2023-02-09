@@ -1,5 +1,5 @@
-import { toCamelCase } from '../util.js';
+import { capitalize } from '../util.js';
 
 export const enumCode = (name) =>
-  `export enum ${toCamelCase(name)} {};
+  `export enum ${capitalize(name)} {};
 `;
