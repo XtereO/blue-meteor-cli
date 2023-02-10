@@ -1,19 +1,29 @@
 import { capitalize } from '../util.js';
 
-export const TemplateEmptyComponentCode = (name) =>
+export const TemplateEmptyComponentCode = (name, isCssOption) =>
   `import { memo } from 'react';
+${
+  isCssOption
+    ? `import { containerStyle } from './${capitalize(name)}.css';`
+    : ''
+}
 
 export const ${capitalize(name)} = memo(() => {
-  return <></>;
+  return <div${isCssOption ? ' className={containerStyle}' : ''}></div>;
 });
 `;
 
-export const TemplateComponentCode = (name) =>
+export const TemplateComponentCode = (name, isCssOption) =>
   `import { memo } from 'react';
+${
+  isCssOption
+    ? `import { containerStyle } from './${capitalize(name)}.css';`
+    : ''
+}
 
 type Props = {};
 
 export const ${capitalize(name)} = memo<Props>(({}) => {
-  return <></>;
+  return <div${isCssOption ? ' className={containerStyle}' : ''}></div>;
 });
 `;

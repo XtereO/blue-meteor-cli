@@ -56,30 +56,40 @@ commander
 
 commander
   .command('modal <name>')
+  .option('-c --css')
+  .option('-r --remove')
   .alias('m')
   .description('Create new modal in layout')
   .action(modal);
 
 commander
   .command('card <name>')
+  .option('-c --css')
+  .option('-r --remove')
   .alias('c')
   .description('Create new card in layout')
   .action(card);
 
 commander
   .command('popout <name>')
+  .option('-c --css')
+  .option('-r --remove')
   .alias('po')
   .description('Create new popout in layout')
   .action(popout);
 
 commander
   .command('brick <name>')
+  .option('-c --css')
+  .option('-r --remove')
   .alias('b')
   .description('Create new brick')
   .action(brick);
 
 commander
   .command('atom <name>')
+  .option('-c --css')
+  .option('-r --remove')
   .alias('a')
   .description('Create new atom')
   .action(atom);

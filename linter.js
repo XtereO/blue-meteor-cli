@@ -62,7 +62,6 @@ export const rmImport = (code, newImport) => {
     (matches[matches.length - 1] ? matches[matches.length - 1].length : 0);
   const importStart = code.indexOf(matches[matches.length - 1]);
   if (matches.length > 0) {
-    console.log(matches);
     matches = matches.reduce((acc, a) => {
       const newWhat = (a.match(/{[^{]*}/g) ? a.match(/{[^{]*}/g)[0] : '')
         .replace(/({|}|\s)/g, '')
@@ -116,7 +115,6 @@ export const rmComponent = (code, newComponent, parentComponentName) => {
     (c) => c.match(new RegExp(`<${newComponent}[^<]*\/\>`)) === null
   );
   sortStrings(matches);
-  console.log(matches);
   const sortedComponents = matches.join('');
 
   return `${code.slice(0, start)}${sortedComponents}${code.slice(end)}`;
@@ -147,7 +145,6 @@ export const removeRoute = (code, routeType, routeValue) => {
   const codeEnd = code.slice(indexStart);
   const routes = codeEnd.match(/{[^{}]*}/g);
   const indexEnd = indexStart + (routes ? routes[0].length : 0);
-  console.log(routeValue, 'removeRoute');
   const firstRoute = routes
     ? routes[0]
         .replace(/({|}|\r|\n|\s)/g, '')
@@ -157,7 +154,6 @@ export const removeRoute = (code, routeType, routeValue) => {
             r.match(new RegExp(`${routeValue}=('|")[^('|")]*('|")`)) === null
         )
     : [];
-  console.log(firstRoute);
   if (!firstRoute[firstRoute.length - 1]) {
     firstRoute.pop();
   }
@@ -179,6 +175,24 @@ export const addPopout = (code, popoutCapitalize) => {
   popouts.push(
     `[PopoutRoute.${popoutCapitalize}]: <${popoutCapitalize}Popout />`
   );
+  sortStrings(popouts);
+
+  return `${code.slice(0, indexStart)}${popouts.join(',')}${code.slice(
+    indexEnd
+  )}`;
+};
+export const rmPopout = (code, popoutCapitalize) => {
+  const indexStart = code.lastIndexOf('{') + 1;
+  const indexEnd = code.lastIndexOf('}');
+  const popouts = code
+    .slice(indexStart, indexEnd)
+    .replace(/(\n|\s|\r)/g, '')
+    .split(',')
+    .filter((p) => !!p)
+    .filter(
+      (p) =>
+        p !== `[PopoutRoute.${popoutCapitalize}]:<${popoutCapitalize}Popout/>`
+    );
   sortStrings(popouts);
 
   return `${code.slice(0, indexStart)}${popouts.join(',')}${code.slice(

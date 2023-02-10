@@ -1,7 +1,12 @@
-export const TemplateModalCode = (nameCapitalize) =>
+export const TemplateModalCode = (nameCapitalize, isCssOption) =>
   `import { ModalRoute } from '@core/models';
 import { CustomModalPage } from '@ui/atoms';
 import { memo } from 'react';
+${
+  isCssOption
+    ? `import { containerStyle } from './${nameCapitalize}Modal.css';`
+    : ''
+}
 
 type Props = {
   id: ModalRoute.${nameCapitalize};
@@ -9,7 +14,9 @@ type Props = {
 
 export const ${nameCapitalize}Modal = memo<Props>(({ id }) => {
   return (
-    <CustomModalPage id={id}></CustomModalPage>
+    <CustomModalPage ${
+      isCssOption ? 'className={containerStyle}' : ''
+    } id={id}></CustomModalPage>
   );
 });
 `;
