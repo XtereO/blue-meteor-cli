@@ -23,7 +23,7 @@ const commander = new Command();
 commander.version('1.0.0').description('Configuration files creator.');
 
 commander
-  .command('generate [name]')
+  .command('generate [project-name]')
   .alias('g')
   .description('Create new project template')
   .action(async (name) => {
@@ -60,7 +60,7 @@ commander
   .option('-c --css')
   .option('-r --remove')
   .alias('m')
-  .description('Create new modal in layout')
+  .description('Create new modal')
   .action(modal);
 
 commander
@@ -68,7 +68,7 @@ commander
   .option('-c --css')
   .option('-r --remove')
   .alias('c')
-  .description('Create new card in layout')
+  .description('Create new card')
   .action(card);
 
 commander
@@ -76,7 +76,7 @@ commander
   .option('-c --css')
   .option('-r --remove')
   .alias('po')
-  .description('Create new popout in layout')
+  .description('Create new popout')
   .action(popout);
 
 commander

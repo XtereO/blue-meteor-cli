@@ -2,10 +2,13 @@
   "name": "@blumjs/cli",
   "preferGlobal": true,
   "bin": {
-    "blum": "./dist/index.cjs"
+    "blum": "./dist/index.js"
   },
+  "files": [
+    "dist"
+  ],
   "version": "1.0.0",
-  "description": "",
+  "description": "This cli helps developing vk-mini-apps fast",
   "type": "module",
   "scripts": {
     "build": "tsc",
@@ -16,7 +19,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "@rollup/plugin-typescript": "^11.1.0",
     "@types/fs-extra": "^11.0.1",
     "@types/node": "^18.15.11",
