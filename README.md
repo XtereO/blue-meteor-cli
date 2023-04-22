@@ -6,9 +6,9 @@
 
 When I create this cli, I was inspired by [nestjs](https://www.npmjs.com/package/@nestjs/cli).
 
-## Rules of naming
+## Rules of use
 
-When you make name, give it in kebab-case. Examples: game-online, user-premium, translate-eng-ru, escape. Make all commands from main directory of app(if project in D:/test-app, make commands form this path), not in src.
+Install globally. When you make name, give it in kebab-case. Examples: game-online, user-premium, translate-eng-ru, escape. Make all commands from main directory of app(if project in D:/test-app, make commands form this path), not in src.
 
 ## Usage
 
