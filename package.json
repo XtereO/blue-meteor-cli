@@ -5,9 +5,10 @@
     "blum": "./dist/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "BlumjsLogo.webp"
   ],
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "This cli helps developing vk-mini-apps fast",
   "type": "module",
   "scripts": {
