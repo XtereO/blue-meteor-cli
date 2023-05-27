@@ -1,52 +1,52 @@
 <div align="center">
-    <img width="134" src="https://webstockreview.net/images/comet-clipart-meteorite-4.png">
+    <img src="BlumjsLogo.webp">
 </div>
 
-## Few words
+## Несколько слов
 
-When I create this cli, I was inspired by [nestjs](https://www.npmjs.com/package/@nestjs/cli).
+Когда я создавал этот cli, я водхновлялся [nestjs](https://www.npmjs.com/package/@nestjs/cli).
 
-## Rules of use
+## Правила использования
 
-Install globally. When you make name, give it in kebab-case. Examples: game-online, user-premium, translate-eng-ru, escape. Make all commands from main directory of app(if project in D:/test-app, make commands form this path), not in src.
+Устанавливать глобально. Для названий используйте kebab-case при задании команд. Например: game-online, user-premium, translate-eng-ru, escape. Используйте cli с корня директории приложения (если проект в папке D:/test-app, делайте команды из нее), не в src.
 
-## Usage
+## Использование
 
-### Get all commands
+### Получение всех команд
 
-Write in terminal, to get all commands:
+Чтобы получить все команды, напишите в терминале:
 
 ```
 blum --help
 ```
 
-### Generate project
+### Создание проекта
 
-This command fetch [git repository](https://github.com/avocadoteam/react-template) (git clone), run `pnpm i` and remove .git, so after fetched you can easy init your own repo.
+Команда подтягивает [git репозиторий](https://github.com/avocadoteam/react-template) (git clone), затем запускает `pnpm i` и удаляет .git, так после подтягивания вы можете легко проиницилизировать свой репозиторий.
 
 ```
 blum g [project-name]
 ```
 
-### Create layout
+### Создание layout
 
-Need for add new layout's absctraction (For example: game - in this game you can create single and multiplayer). In options you can add -c (create also css file nearby), -r (remove existing layout). This command make new route and link with AppLayout - comfortable. The new layout will appear in `src/ui/layouts/<name>`.
+Нужно для добавления нового слоя абстракции (например, в игре у вас может быть single и multiplayer слои). В опциях вы можете добавить -c (создает рядом css файл), -r (убирает существующий слой). Эта команда создает новый роут и связывает с AppLayout - удобно. Новый слой появиться в `src/ui/layouts/<name>`.
 
 ```
 blum l <name>
 ```
 
-### Create panel
+### Создание panel
 
-Options like in layout. It's screen of panel, for previous example is game single or multiplayer. Will appear in `src/ui/layouts/<layout-name>/panels/<panel-name>`.
+Опции как и у layout. Это то, что будет видеть юзер при нахождении по соответствующему роуту (например, в игре в слое single находится панели game-settings и game-scene). Появиться в `src/ui/layouts/<layout-name>/panels/<panel-name>`.
 
 ```
 blum p <panel-name> <layout-name>
 ```
 
-### Create modal, card, popout
+### Создание modal, card, popout
 
-Options like in layout. All this things are high level in app. You may use modal and card for short operation like turn on notification. Popout like spinner or alert. All this things appear in layouts.
+Опции как в layout. Это все элементы, которые находятся выше панели. Например, модальная страница или карточка может использоваться для коротких операций подтверждений как включение уведомлений. Popout обычно это спинер или alert. Все это появится в папке `src/ui/layouts/<name>`.
 
 ```
 // create modal
@@ -59,12 +59,12 @@ blum c <name>
 blum po <name>
 ```
 
-### Format
+### Форматирование
 
 ```
 blum f
 ```
 
-### Other
+### Другое
 
-The other commands require just name and have options -r (remove), brick and atom has also -c (create css file nearby).
+Другие команды треубуют только имя и имеют опции -r (удаление), brick и atom имеют также -c (создание рядом файла css).

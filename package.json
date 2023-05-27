@@ -12,8 +12,6 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "build:watch": "tsc && vite build --watch",
-    "dev": "vite",
     "deploy": "npm run build && npm publish"
   },
   "keywords": [
@@ -26,19 +24,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@rollup/plugin-typescript": "^11.1.0",
     "@types/fs-extra": "^11.0.1",
-    "@types/node": "^18.15.11",
-    "@vitejs/plugin-react": "^3.1.0",
+    "@types/node": "^20.2.5",
     "chalk": "^5.2.0",
-    "commander": "^10.0.0",
-    "fs-extra": "^11.1.0",
+    "commander": "^10.0.1",
+    "fs-extra": "^11.1.1",
     "inquirer": "^9.1.4",
-    "prettier": "^2.8.3",
-    "rollup-plugin-typescript-paths": "^1.4.0",
-    "typescript": "^5.0.4",
-    "vite": "^4.2.2",
-    "vite-plugin-child-process": "^1.0.6"
+    "prettier": "^2.8.8",
+    "typescript": "^5.0.4"
   },
   "publishConfig": {
     "access": "public"
