@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="BlumjsLogo.webp"/>
+    <img src="https://drive.google.com/uc?export=view&id=14_MxI0TSoz8wK9e-f8BHzworUfehaZz3"/>
 </div>
 
 ## Несколько слов
