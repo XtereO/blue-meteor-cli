@@ -20,7 +20,7 @@ import {
 import { removeFolder } from './file/index.js';
 const commander = new Command();
 
-commander.version('1.1.1').description('Configuration files creator.');
+commander.version('1.1.2').description('Configuration files creator.');
 
 commander
   .command('generate [project-name]')
