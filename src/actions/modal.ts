@@ -4,9 +4,9 @@ import {
   readFileUTF8,
   removeFolder,
   writeAndLintFile,
-  writeCssFile,
   writeOrUpdateIndex,
 } from '../file/index.js';
+import { cssMiddleware, testMiddleware } from '../middlewares/index.js';
 import { BaseOptions } from '../models/index.js';
 import {
   TemplateCardCode,
@@ -26,8 +26,9 @@ import { addRoute, removeRoute } from './route.js';
 const template = (isModal: boolean) => (name: string, options: BaseOptions) => {
   const upperCase = isModal ? 'Modal' : 'Card';
   const lowerCase = isModal ? 'modal' : 'card';
-  const isRemoveOption = options.hasOwnProperty('remove') && options.remove;
-  const isCssOption = options.hasOwnProperty('css') && options.css;
+  const isRemoveOption = options?.remove;
+  const isCssOption = !!options?.css;
+  const isTestOption = !!options?.test;
   const folder = `${lowerCase}s`;
   exec(
     `mkdir src & cd src & mkdir ui & cd ui & mkdir layouts & cd layouts & mkdir modal & cd modal & mkdir ${folder} & cd ${folder} & mkdir ${name}`,
@@ -61,9 +62,11 @@ const template = (isModal: boolean) => (name: string, options: BaseOptions) => {
         }
         return;
       }
-      if (isCssOption) {
-        writeCssFile(`${pathToModals}/${name}/${componentModal}`);
-      }
+      testMiddleware(isTestOption, `${pathToModals}/${name}`, {
+        name: componentModal,
+        type: 'component',
+      });
+      cssMiddleware(isCssOption, `${pathToModals}/${name}`, componentModal);
       writeAndLintFile(
         `${pathToModals}/${name}/${componentModal}.tsx`,
         isModal

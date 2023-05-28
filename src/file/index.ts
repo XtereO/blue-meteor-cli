@@ -4,3 +4,4 @@ export * from './removeFolder.js';
 export * from './writeAndLintFile.js';
 export * from './writeCssFile.js';
 export * from './writeOrUpdateIndex.js';
+export * from './writeTestFile.js';

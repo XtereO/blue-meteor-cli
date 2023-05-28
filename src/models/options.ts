@@ -4,4 +4,7 @@ export type RemoveOption = {
 export type CssOption = {
   css?: boolean;
 };
-export type BaseOptions = RemoveOption & CssOption;
+export type TestOption = {
+  test?: boolean;
+};
+export type BaseOptions = Partial<RemoveOption & CssOption & TestOption>;

@@ -1,11 +1,7 @@
 import { exec } from 'child_process';
 import { existsSync } from 'fs';
-import {
-  readFileUTF8,
-  removeFolder,
-  writeAndLintFile,
-  writeCssFile,
-} from '../file/index.js';
+import { readFileUTF8, removeFolder, writeAndLintFile } from '../file/index.js';
+import { cssMiddleware, testMiddleware } from '../middlewares/index.js';
 import { BaseOptions } from '../models/index.js';
 import {
   AppLayoutCode,
@@ -25,8 +21,9 @@ export const layout = (name: string, options: BaseOptions) => {
   exec(
     `mkdir src & cd src & mkdir ui & cd ui & mkdir layouts & cd layouts & mkdir ${name} & cd ${name} & mkdir panels`,
     () => {
-      const isRemoveOption = options.hasOwnProperty('remove') && options.remove;
-      const isCssOption = options.hasOwnProperty('css') && options.css;
+      const isRemoveOption = options?.remove;
+      const isCssOption = !!options?.css;
+      const isTestOption = !!options?.test;
       const layoutName = capitalize(name);
       const componentName = `${layoutName}Layout`;
       const curPath = `src/ui/layouts/${name}`;
@@ -50,9 +47,11 @@ export const layout = (name: string, options: BaseOptions) => {
         return;
       }
 
-      if (isCssOption) {
-        writeCssFile(`${curPath}/${componentName}`);
-      }
+      testMiddleware(isTestOption, curPath, {
+        name: componentName,
+        type: 'component',
+      });
+      cssMiddleware(isCssOption, curPath, componentName);
       writeAndLintFile(
         `${curPath}/index.ts`,
         TemplateIndexCode(`./${componentName}`, '*')

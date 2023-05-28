@@ -12,4 +12,5 @@ export * from './module.js';
 export * from './panel.js';
 export * from './popout.js';
 export * from './routes.js';
+export * from './test.js';
 export * from './type.js';

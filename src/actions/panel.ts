@@ -1,12 +1,8 @@
 import chalk from 'chalk';
 import { exec } from 'child_process';
 import { existsSync } from 'fs';
-import {
-  readFileUTF8,
-  removeFolder,
-  writeAndLintFile,
-  writeCssFile,
-} from '../file/index.js';
+import { readFileUTF8, removeFolder, writeAndLintFile } from '../file/index.js';
+import { cssMiddleware, testMiddleware } from '../middlewares/index.js';
 import { BaseOptions } from '../models/index.js';
 import { TemplatePanelCode } from '../template/index.js';
 import {
@@ -23,8 +19,9 @@ export const panel = (
   layoutName: string,
   options: BaseOptions
 ) => {
-  const isRemoveOption = options.hasOwnProperty('remove') && options.remove;
-  const isCssOption = options.hasOwnProperty('css') && options.css;
+  const isRemoveOption = !!options?.remove;
+  const isCssOption = !!options?.css;
+  const isTestOption = !!options?.test;
   const layoutNameCapitalize = capitalize(layoutName);
   const layoutComponent = `${layoutNameCapitalize}Layout`;
   const panelNameCapitalize = capitalize(panelName);
@@ -67,9 +64,15 @@ export const panel = (
         }
         return;
       }
-      if (isCssOption) {
-        writeCssFile(`${curPath}/panels/${panelName}/${panelComponet}`);
-      }
+      cssMiddleware(
+        isCssOption,
+        `${curPath}/panels/${panelName}`,
+        panelComponet
+      );
+      testMiddleware(isTestOption, `${curPath}/panels/${panelName}`, {
+        name: panelComponet,
+        type: 'component',
+      });
       writeAndLintFile(
         `${curPath}/panels/${panelName}/${panelComponet}.tsx`,
         TemplatePanelCode(panelNameCapitalize, !!isCssOption)

@@ -41,6 +41,7 @@ commander
 
 commander
   .command('layout <name>')
+  .option('-t --test')
   .option('-c --css')
   .option('-r --remove')
   .alias('l')
@@ -49,6 +50,7 @@ commander
 
 commander
   .command('panel <panel-name> <layout-name>')
+  .option('-t --test')
   .option('-c --css')
   .option('-r --remove')
   .alias('p')
@@ -57,6 +59,7 @@ commander
 
 commander
   .command('modal <name>')
+  .option('-t --test')
   .option('-c --css')
   .option('-r --remove')
   .alias('m')
@@ -65,6 +68,7 @@ commander
 
 commander
   .command('card <name>')
+  .option('-t --test')
   .option('-c --css')
   .option('-r --remove')
   .alias('c')
@@ -73,6 +77,7 @@ commander
 
 commander
   .command('popout <name>')
+  .option('-t --test')
   .option('-c --css')
   .option('-r --remove')
   .alias('po')
@@ -81,6 +86,7 @@ commander
 
 commander
   .command('brick <name>')
+  .option('-t --test')
   .option('-c --css')
   .option('-r --remove')
   .alias('b')
@@ -89,6 +95,7 @@ commander
 
 commander
   .command('atom <name>')
+  .option('-t --test')
   .option('-c --css')
   .option('-r --remove')
   .alias('a')
@@ -98,6 +105,7 @@ commander
 commander
   .command('module <name>')
   .alias('mo')
+  .option('-t --test')
   .option('-r --remove')
   .description('Create new module')
   .action(module);
@@ -105,6 +113,7 @@ commander
 commander
   .command('util <name>')
   .alias('u')
+  .option('-t --test')
   .option('-r --remove')
   .description('Create new util')
   .action(util);
@@ -112,6 +121,7 @@ commander
 commander
   .command('hook <name>')
   .alias('h')
+  .option('-t --test')
   .option('-r --remove')
   .description('Create new hook')
   .action(hook);

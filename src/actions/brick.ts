@@ -3,17 +3,18 @@ import {
   readFileUTF8,
   removeFolder,
   writeAndLintFile,
-  writeCssFile,
   writeOrUpdateIndex,
 } from '../file/index.js';
+import { cssMiddleware, testMiddleware } from '../middlewares/index.js';
 import { BaseOptions } from '../models/index.js';
 import { TemplateComponentCode } from '../template/index.js';
 import { capitalize, removeImport } from '../utils/index.js';
 
 const template = (isBrick: boolean) => (name: string, options: BaseOptions) => {
   const folder = isBrick ? 'bricks' : 'atoms';
-  const isRemoveOption = options.hasOwnProperty('remove') && options.remove;
-  const isCssOption = options.hasOwnProperty('css') && options.css;
+  const isRemoveOption = options?.remove;
+  const isCssOption = !!options?.css;
+  const isTestOption = !!options?.test;
   exec(
     `mkdir src & cd src & mkdir ui & cd ui & mkdir bricks & cd ${folder} & mkdir ${name}`,
     () => {
@@ -33,9 +34,11 @@ const template = (isBrick: boolean) => (name: string, options: BaseOptions) => {
         return;
       }
 
-      if (isCssOption) {
-        writeCssFile(`${pathToFolder}/${nameUpperCase}`);
-      }
+      testMiddleware(isTestOption, pathToFolder, {
+        name: nameUpperCase,
+        type: 'component',
+      });
+      cssMiddleware(isCssOption, pathToFolder, nameUpperCase);
       writeAndLintFile(
         `${pathToFolder}/${nameUpperCase}.tsx`,
         TemplateComponentCode(nameUpperCase, !!isCssOption)

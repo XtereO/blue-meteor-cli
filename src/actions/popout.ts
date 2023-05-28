@@ -1,11 +1,7 @@
 import { exec } from 'child_process';
 import { existsSync } from 'fs';
-import {
-  readFileUTF8,
-  removeFolder,
-  writeAndLintFile,
-  writeCssFile,
-} from '../file/index.js';
+import { readFileUTF8, removeFolder, writeAndLintFile } from '../file/index.js';
+import { cssMiddleware, testMiddleware } from '../middlewares/index.js';
 import { BaseOptions } from '../models/index.js';
 import {
   TemplateEmptyComponentCode,
@@ -23,8 +19,9 @@ import {
 import { addRoute, removeRoute } from './route.js';
 
 export const popout = (name: string, options: BaseOptions) => {
-  const isRemoveOption = options.hasOwnProperty('remove') && options.remove;
-  const isCssOption = options.hasOwnProperty('css') && options.css;
+  const isRemoveOption = !!options?.remove;
+  const isCssOption = !!options?.css;
+  const isTestOption = !!options?.test;
   exec(
     `mkdir src & cd src & mkdir ui & cd ui & mkdir layouts & cd layouts & mkdir popout & cd popout & mkdir popouts & cd popouts & mkdir ${name}`,
     () => {
@@ -53,9 +50,11 @@ export const popout = (name: string, options: BaseOptions) => {
         }
         return;
       }
-      if (isCssOption) {
-        writeCssFile(`${pathToPopouts}/${name}/${componentName}`);
-      }
+      cssMiddleware(isCssOption, `${pathToPopouts}/${name}`, componentName);
+      testMiddleware(isTestOption, `${pathToPopouts}/${name}`, {
+        name: componentName,
+        type: 'component',
+      });
       writeAndLintFile(
         `${pathToPopouts}/${name}/index.ts`,
         TemplateIndexCode(`./${componentName}`)
