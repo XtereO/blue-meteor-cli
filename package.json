@@ -7,8 +7,8 @@
   "files": [
     "dist"
   ],
-  "version": "1.0.8",
-  "description": "This cli helps developing vk-mini-apps fast",
+  "version": "1.0.9",
+  "description": "cli для быстрой разработки vk-mini-apps",
   "type": "module",
   "scripts": {
     "build": "tsc",
