@@ -1,5 +1,6 @@
 export * from './brick.js';
 export * from './format.js';
+export * from './generate.js';
 export * from './layout.js';
 export * from './modal.js';
 export * from './module.js';

@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-import chalk from 'chalk';
-import { exec } from 'child_process';
 import { Command } from 'commander';
 import {
   atom,
@@ -8,6 +6,7 @@ import {
   card,
   enumAction,
   format,
+  generate,
   hook,
   layout,
   modal,
@@ -17,27 +16,15 @@ import {
   typeAction,
   util,
 } from './actions/index.js';
-import { removeFolder } from './file/index.js';
 const commander = new Command();
 
-commander.version('1.1.2').description('Configuration files creator.');
+commander.version('1.2.0').description('Configuration files creator.');
 
 commander
   .command('generate [project-name]')
   .alias('g')
   .description('Create new project template')
-  .action(async (name) => {
-    exec(
-      `git clone https://github.com/avocadoteam/react-template.git ${name} && cd ${name} & pnpm i`,
-      (err, stdout, stderr) => {
-        removeFolder(`${name}/.git`);
-        console.log(stdout);
-        if (err || stderr) {
-          console.log(chalk.red(err, stderr));
-        }
-      }
-    );
-  });
+  .action(generate);
 
 commander
   .command('layout <name>')
