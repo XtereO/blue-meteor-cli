@@ -30,8 +30,8 @@ export const module = (
       });
       const path = (n: string) => `src/core/modules/${name}/${n}`;
       writeAndLintFile(path('store.ts'), storeCode(nameCamelCase));
-      writeAndLintFile(path('events.ts'), eventsCode());
-      writeAndLintFile(path('effects.ts'), effectsCode());
+      writeAndLintFile(path('events.ts'), eventsCode(nameCamelCase));
+      writeAndLintFile(path('effects.ts'), effectsCode(nameCamelCase));
       writeAndLintFile(path('index.ts'), effectorIndexCode());
     }
   );
